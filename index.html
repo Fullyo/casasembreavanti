@@ -1,0 +1,513 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Building2, 
+  Globe, 
+  CreditCard, 
+  LayoutDashboard, 
+  Megaphone, 
+  TrendingUp, 
+  CheckCircle2, 
+  Clock, 
+  Users, 
+  Smartphone,
+  ArrowRight,
+  ShieldCheck,
+  BarChart3,
+  Calendar,
+  Layers,
+  Menu,
+  X,
+  Target,
+  Rocket,
+  MapPin,
+  Mail,
+  PiggyBank,
+  Zap
+} from 'lucide-react';
+
+const Proposal = () => {
+  const [activeSection, setActiveSection] = useState('overview');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollTo = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
+      setActiveSection(id);
+    }
+  };
+
+  // Branding Colors
+  const brand = {
+    bg: "bg-slate-950",
+    card: "bg-slate-900/50",
+    cardHover: "hover:bg-slate-800/80",
+    accent: "text-indigo-400",
+    accentBg: "bg-indigo-600",
+    accentHover: "hover:bg-indigo-500",
+    text: "text-slate-300",
+    heading: "text-white",
+    border: "border-slate-800"
+  };
+
+  const pillars = [
+    {
+      id: "pillar1",
+      icon: <Building2 className="w-8 h-8" />,
+      title: "Pillar 1 — Property Optimization",
+      subtitle: "Alignment First",
+      keyMetric: "15–25% Increase in Nightly Rate",
+      content: "Before launching new channels or campaigns, we align the property across all platforms so messaging, offers, and positioning are consistent everywhere.",
+      details: [
+        {
+          head: "What this includes",
+          items: [
+            "Brand and offer alignment across all listings",
+            "Listing optimization based on performance metrics and positioning",
+            "Standardization of content for distribution across: Airbnb, VRBO, Booking.com, Google, Direct website"
+          ]
+        },
+        {
+          head: "Outcome",
+          items: [
+            "One clear, cohesive presentation of the property",
+            "No fragmented messaging or conflicting offers between platforms"
+          ]
+        }
+      ]
+    },
+    {
+      id: "pillar2",
+      icon: <Globe className="w-8 h-8" />,
+      title: "Pillar 2 — Direct Bookings",
+      subtitle: "Website, Payments & Experiences",
+      keyMetric: "Avoid OTA Commissions",
+      content: "Start: This week (as early as Monday). Initial completion: 7–10 days.",
+      highlight: true,
+      note: "If photo or video assets are still in production, the website goes live and continues to be refined during an ongoing improvement phase.",
+      details: [
+        {
+          head: "Website capabilities",
+          items: [
+            "Accepts credit card payments via Guesty & Stripe",
+            "Funds deposited directly into owner’s account"
+          ]
+        },
+        {
+          head: "Online booking",
+          items: [
+            "Guests can book online for: Accommodations, Experience packages, Add-ons, À la carte services"
+          ]
+        },
+        {
+          head: "Experiences & upgrades",
+          items: [
+            "Tiered experiences (base stay vs premium)",
+            "Structured add-ons and upsells (Pre & Post booking)"
+          ]
+        }
+      ],
+      financials: {
+        show: true,
+        rev: "$300,000",
+        y1: "$22,500",
+        y5: "$112,500+"
+      }
+    },
+    {
+      id: "pillar3",
+      icon: <TrendingUp className="w-8 h-8" />,
+      title: "Pillar 3 — Multi-Channel Strategy",
+      subtitle: "Balanced Distribution",
+      keyMetric: "20–30% Increase in Occupancy",
+      content: "We deploy a balanced distribution model designed to increase margin while maintaining visibility.",
+      details: [
+        {
+          head: "Channels included",
+          items: ["Airbnb", "Booking.com", "VRBO", "Expedia", "Google Vacation Rentals", "Direct booking website"]
+        },
+        {
+          head: "Strategic goal",
+          items: [
+            "~50% direct bookings",
+            "~50% OTA bookings",
+            "OTAs are used as discovery channels; direct bookings increase control and reduce commission leakage."
+          ]
+        }
+      ]
+    },
+    {
+      id: "pillar4",
+      icon: <LayoutDashboard className="w-8 h-8" />,
+      title: "Pillar 4 — PMS Integration (Guesty)",
+      subtitle: "Centralized Control",
+      keyMetric: "5 Hours Saved Weekly",
+      content: "Guesty setup begins at the same time as the website. Integration and configuration happen in parallel.",
+      note: "Result: Better guest management & reviews.",
+      details: [
+        {
+          head: "Why Guesty",
+          items: [
+            "Industry-leading property management system",
+            "Centralized control of listings, pricing, and messaging",
+            "Strong owner reporting and transparency"
+          ]
+        },
+        {
+          head: "Guest journey",
+          items: [
+            "Guest books their stay",
+            "Upgrades via: Website, Property manager, or Guest app",
+            "Guest App: Central hub for stay info & purchases"
+          ]
+        }
+      ]
+    },
+    {
+      id: "pillar5",
+      icon: <Megaphone className="w-8 h-8" />,
+      title: "Pillar 5 — Marketing & Growth Strategy",
+      subtitle: "Visibility, CRM & Blueprint",
+      keyMetric: "Guest Data Ownership & Control",
+      content: "Marketing is built into the system from day one, leveraging our Direct Booking Strategy Blueprint.",
+      note: "By owning the data, we gain more control and reinforce the 15–22% OTA commission savings.",
+      details: [
+        {
+          head: "Direct Booking Strategy Blueprint",
+          items: [
+            "Over 23 complementary strategies to reduce platform dependency",
+            "Short-term: Immediate booking drivers",
+            "Long-term: Brand equity & repeatable ecosystem"
+          ]
+        },
+        {
+          head: "Channels & CRM",
+          items: [
+            "Social Media: Facebook, Instagram, TikTok",
+            "Guesty CRM: Complete customer relationship management",
+            "Email marketing & re-engagement"
+          ]
+        },
+        {
+          head: "Discovery & Local",
+          items: [
+            "SEO-optimized website & Google Vacation Rentals",
+            "Ground marketing & local promotions"
+          ]
+        }
+      ]
+    }
+  ];
+
+  return (
+    <div className={`min-h-screen ${brand.bg} font-sans selection:bg-indigo-500 selection:text-white`}>
+      
+      {/* Navigation */}
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/90 backdrop-blur-md border-b border-slate-800 py-4' : 'bg-transparent py-6'}`}>
+        <div className="container mx-auto px-6 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center font-bold text-white">F</div>
+            <span className="text-xl font-bold tracking-tight text-white">FULLYO</span>
+          </div>
+          
+          <div className="hidden md:flex gap-8 text-sm font-medium text-slate-400">
+            {['Overview', 'Vision', 'Strategy', 'Timeline'].map((item) => (
+              <button 
+                key={item}
+                onClick={() => scrollTo(item.toLowerCase())}
+                className="hover:text-white transition-colors uppercase tracking-wider text-xs"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+
+          <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-slate-950 pt-24 px-6 md:hidden">
+          <div className="flex flex-col gap-6 text-xl font-medium text-slate-300">
+            {['Overview', 'Vision', 'Strategy', 'Timeline'].map((item) => (
+              <button 
+                key={item}
+                onClick={() => scrollTo(item.toLowerCase())}
+                className="text-left py-2 border-b border-slate-800"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Hero Section */}
+      <header id="overview" className="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6 overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-20">
+          <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-indigo-600/30 rounded-full blur-[120px]"></div>
+          <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-purple-600/20 rounded-full blur-[100px]"></div>
+        </div>
+
+        <div className="container mx-auto relative z-10 max-w-4xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-sm font-medium mb-6">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+            </span>
+            Timeline, Execution & Strategy Overview
+          </div>
+          
+          <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-6">
+            Casa Sempre Avanti
+          </h1>
+          
+          <p className="text-xl md:text-2xl text-slate-400 leading-relaxed mb-12 max-w-3xl">
+            This project is structured intentionally from foundation to visibility. We begin by aligning the property, brand, and data across all channels, then build upward into direct bookings, distribution, system integration, and marketing — ensuring everything works together as one cohesive ecosystem.
+          </p>
+
+          <div className={`${brand.card} border ${brand.border} p-8 rounded-2xl backdrop-blur-sm`}>
+            <div className="flex flex-col md:flex-row gap-8 items-start md:items-center">
+              <div className="flex-1">
+                <h3 className={`${brand.accent} font-semibold uppercase tracking-wider text-sm mb-2`}>New Operating Model</h3>
+                <p className={`${brand.text}`}>
+                  <strong className="text-white">FULLYO</strong> acts as the technical, web, and marketing team, while <strong className="text-white">Eño</strong> manages on-the-ground operations. This separation ensures clarity, efficiency, and long-term scalability.
+                </p>
+              </div>
+              <div className="hidden md:block w-px h-16 bg-slate-800"></div>
+              <div className="flex-1">
+                <h3 className={`${brand.accent} font-semibold uppercase tracking-wider text-sm mb-2`}>The Framework</h3>
+                <p className={`${brand.text}`}>
+                  Structured Using <strong className="text-white">FULLYO’s 5-Pillar Framework</strong>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Strategic Goals & Vision */}
+      <section id="vision" className="py-20 px-6 bg-slate-900/20 border-y border-slate-800/50">
+        <div className="container mx-auto max-w-5xl">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+             <h2 className="text-3xl font-bold text-white mb-6">Strategic Vision & Growth Metrics</h2>
+             <p className="text-slate-400 text-lg">
+               Our vision is to elevate the property beyond accommodation, promoting the full experience to attract the ideal guest and maximize revenue potential through four key avenues.
+             </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-6">
+             {[
+               { icon: <Target className="w-6 h-6" />, title: "Direct Bookings", desc: "Maximize margin & control" },
+               { icon: <TrendingUp className="w-6 h-6" />, title: "Nightly Rate", desc: "Optimize via brand positioning" },
+               { icon: <CreditCard className="w-6 h-6" />, title: "On-Site Spend", desc: "Experiences & Upsells" },
+               { icon: <Users className="w-6 h-6" />, title: "Occupancy", desc: "Increase annual volume" }
+             ].map((metric, i) => (
+               <div key={i} className="bg-slate-950 p-6 rounded-xl border border-slate-800 flex flex-col items-center text-center hover:border-indigo-500/50 transition-colors">
+                 <div className="mb-4 text-indigo-400 bg-indigo-900/20 p-3 rounded-lg">{metric.icon}</div>
+                 <h3 className="text-white font-semibold mb-2">{metric.title}</h3>
+                 <p className="text-slate-500 text-sm">{metric.desc}</p>
+               </div>
+             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* The 5 Pillars Strategy */}
+      <section id="strategy" className="py-20 px-6 relative">
+        <div className="container mx-auto max-w-5xl">
+          <div className="mb-16">
+            <h2 className={`text-3xl md:text-4xl font-bold ${brand.heading} mb-4`}>Execution Strategy</h2>
+            <div className="w-20 h-1 bg-indigo-500 rounded-full"></div>
+          </div>
+
+          <div className="space-y-12">
+            {pillars.map((pillar, index) => (
+              <div key={pillar.id} className="group relative">
+                {/* Connecting Line */}
+                {index !== pillars.length - 1 && (
+                  <div className="absolute left-8 top-20 bottom-[-48px] w-px bg-slate-800 z-0 hidden md:block group-hover:bg-indigo-900/50 transition-colors"></div>
+                )}
+                
+                <div className={`${brand.card} border ${brand.border} rounded-2xl p-6 md:p-10 transition-all duration-300 hover:border-indigo-500/30 relative z-10`}>
+                  <div className="flex flex-col md:flex-row gap-8">
+                    {/* Icon Column */}
+                    <div className="flex-shrink-0">
+                      <div className={`w-16 h-16 rounded-xl ${brand.accentBg} flex items-center justify-center text-white shadow-lg shadow-indigo-900/20`}>
+                        {pillar.icon}
+                      </div>
+                    </div>
+
+                    {/* Content Column */}
+                    <div className="flex-1">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div className="flex-1">
+                          <h3 className={`text-2xl font-bold ${brand.heading}`}>{pillar.title}</h3>
+                          <p className={`${brand.accent} font-medium`}>{pillar.subtitle}</p>
+                        </div>
+                        {pillar.keyMetric && (
+                           <div className="flex items-center gap-2 bg-slate-800/80 border border-slate-700 text-slate-200 px-4 py-2 rounded-lg shadow-sm">
+                             <Zap className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                             <span className="text-sm font-bold tracking-wide">{pillar.keyMetric}</span>
+                           </div>
+                        )}
+                      </div>
+
+                      <p className="text-slate-300 text-lg mb-8 leading-relaxed">
+                        {pillar.content}
+                        {pillar.note && <span className="block mt-4 text-slate-400 text-base bg-slate-950/50 p-4 rounded-lg border border-slate-800/50">{pillar.note}</span>}
+                      </p>
+
+                      <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-6">
+                        {pillar.details.map((detail, idx) => (
+                          <div key={idx} className="bg-slate-950/50 rounded-xl p-5 border border-slate-800/50">
+                            <h4 className="text-white font-semibold mb-3 text-sm uppercase tracking-wide opacity-90">{detail.head}</h4>
+                            <ul className="space-y-2">
+                              {detail.items.map((item, i) => (
+                                <li key={i} className="flex items-start gap-2 text-slate-400 text-sm">
+                                  <div className="mt-1.5 w-1 h-1 rounded-full bg-indigo-500 flex-shrink-0"></div>
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* FINANCIAL SAVINGS BLOCK INSIDE PILLAR 2 */}
+                      {pillar.financials && (
+                        <div className="mt-8 bg-slate-950 border border-slate-800 rounded-xl p-6 relative overflow-hidden">
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
+                          
+                          <div className="flex items-center gap-3 mb-6">
+                            <PiggyBank className="text-emerald-400 w-6 h-6" />
+                            <h4 className="text-white font-bold text-lg">Projected Commission Savings</h4>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                             <div>
+                               <p className="text-slate-500 text-xs uppercase tracking-wider mb-1">1-Year Savings</p>
+                               <p className="text-3xl font-bold text-emerald-400">{pillar.financials.y1}</p>
+                               <p className="text-slate-500 text-xs mt-2">Based on 15% commission avoided on 50% of {pillar.financials.rev} annual revenue.</p>
+                             </div>
+                             <div className="relative">
+                               <div className="absolute left-0 top-2 bottom-2 w-px bg-slate-800 hidden md:block"></div>
+                               <div className="md:pl-8">
+                                 <p className="text-slate-500 text-xs uppercase tracking-wider mb-1">5-Year Total Savings</p>
+                                 <p className="text-3xl font-bold text-emerald-400">{pillar.financials.y5}</p>
+                                 <p className="text-slate-500 text-xs mt-2">Cumulative savings retained directly by owner over 5 years.</p>
+                               </div>
+                             </div>
+                          </div>
+                        </div>
+                      )}
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Execution Timeline */}
+      <section id="timeline" className="py-20 px-6 bg-slate-950">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl font-bold text-white mb-12 text-center">Execution Summary</h2>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-slate-900/50 p-6 rounded-2xl border border-slate-800 relative overflow-hidden group hover:border-indigo-500/30 transition-all flex flex-col justify-between h-full min-h-[160px]">
+              <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
+              
+              <div>
+                <h3 className="text-white font-bold text-lg mb-1">Starting This Week</h3>
+                <p className="text-slate-500 text-xs uppercase tracking-wider">Project Start</p>
+              </div>
+              
+              <div className="mt-4 pt-4 border-t border-slate-800/50">
+                <div className="flex items-center gap-2 text-indigo-400 font-medium">
+                  <Clock className="w-4 h-4" />
+                  <span>Kickoff Call: Tuesday</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-slate-900/50 p-6 rounded-2xl border border-slate-800 relative overflow-hidden group hover:border-emerald-500/30 transition-all flex flex-col justify-between h-full min-h-[160px]">
+              <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
+              
+              <div>
+                <h3 className="text-white font-bold text-lg mb-1">Website + Guesty Live</h3>
+                <p className="text-slate-500 text-xs uppercase tracking-wider">System Launch</p>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-slate-800/50">
+                 <div className="flex items-center gap-2 text-emerald-400 font-medium">
+                    <Rocket className="w-4 h-4" />
+                    <span>7–10 Days</span>
+                  </div>
+              </div>
+            </div>
+
+            <div className="bg-slate-900/50 p-6 rounded-2xl border border-slate-800 relative overflow-hidden group hover:border-purple-500/30 transition-all flex flex-col justify-between h-full min-h-[160px]">
+              <div className="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
+              
+              <div>
+                <h3 className="text-white font-bold text-lg mb-1">Ongoing Phase</h3>
+                <p className="text-slate-500 text-xs uppercase tracking-wider">Growth</p>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-slate-800/50">
+                <div className="flex items-center gap-2 text-purple-400 font-medium">
+                  <TrendingUp className="w-4 h-4" />
+                  <span>Continuous</span>
+                </div>
+                <p className="text-slate-500 text-xs mt-1">Tech optimization + Marketing</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-16 text-center border-t border-slate-900 pt-10">
+            <p className="text-slate-400 mb-6">This approach ensures the property is:</p>
+            <div className="flex flex-wrap justify-center gap-3">
+              {["Consistently positioned", "Technically sound", "Easy to manage", "Built for long-term growth"].map((tag) => (
+                <span key={tag} className="px-4 py-2 rounded-full bg-slate-900 text-white text-sm font-medium border border-slate-800">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 bg-slate-950 border-t border-slate-900 text-center">
+        <div className="flex items-center justify-center gap-2 mb-4">
+            <div className="w-6 h-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded flex items-center justify-center font-bold text-white text-xs">F</div>
+            <span className="text-lg font-bold tracking-tight text-white">FULLYO</span>
+        </div>
+        <a href="https://www.fullyo.io" target="_blank" rel="noreferrer" className="text-slate-600 hover:text-indigo-400 transition-colors text-sm">
+          www.fullyo.io
+        </a>
+        <p className="text-slate-700 text-xs mt-8">
+          © {new Date().getFullYear()} Fullyo. All rights reserved. Confidential Proposal for Casa Sempre Avanti.
+        </p>
+      </footer>
+    </div>
+  );
+};
+
+export default Proposal;
