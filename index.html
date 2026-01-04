@@ -66,7 +66,8 @@
             MapPin,
             Mail,
             PiggyBank,
-            Zap
+            Zap,
+            PhoneCall
         } from 'lucide-react';
 
         const Proposal = () => {
@@ -178,14 +179,15 @@
                 details: [
                     {
                     head: "Channels included",
-                    items: ["Airbnb", "Booking.com", "VRBO", "Expedia", "Google Vacation Rentals", "Direct booking website"]
+                    items: ["Airbnb", "Booking.com", "VRBO", "Expedia", "Google Vacation Rentals", "Direct booking website", "Explore: Villas by Marriott"]
                     },
                     {
                     head: "Strategic goal",
                     items: [
                         "~50% direct bookings",
                         "~50% OTA bookings",
-                        "OTAs are used as discovery channels; direct bookings increase control and reduce commission leakage."
+                        "OTAs are used as discovery channels; direct bookings increase control and reduce commission leakage.",
+                        "Listings leave 'clues' (branding/naming) that guide guests to find the direct site."
                     ]
                     }
                 ]
@@ -213,6 +215,13 @@
                         "Guest books their stay",
                         "Upgrades via: Website, Property manager, or Guest app",
                         "Guest App: Central hub for stay info & purchases"
+                    ]
+                    },
+                    {
+                    head: "Cost & Value",
+                    items: [
+                        "Guesty Cost: $50/month per property",
+                        "Pro Account ($1,500 USD value): INCLUDED when working with Fullyo"
                     ]
                     }
                 ]
@@ -246,7 +255,8 @@
                     head: "Discovery & Local",
                     items: [
                         "SEO-optimized website & Google Vacation Rentals",
-                        "Ground marketing & local promotions"
+                        "Ground marketing & local promotions",
+                        "Positioning the offer in front of the right clients"
                     ]
                     }
                 ]
@@ -510,7 +520,7 @@
                         <div className="mt-4 pt-4 border-t border-slate-800/50">
                             <div className="flex items-center gap-2 text-indigo-400 font-medium">
                             <Clock className="w-4 h-4" />
-                            <span>Kickoff Call: Tuesday</span>
+                            <span>Kickoff Call: Monday Afternoon</span>
                             </div>
                         </div>
                         </div>
@@ -519,8 +529,8 @@
                         <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
                         
                         <div>
-                            <h3 className="text-white font-bold text-lg mb-1">Website + Guesty Live</h3>
-                            <p className="text-slate-500 text-xs uppercase tracking-wider">System Launch</p>
+                            <h3 className="text-white font-bold text-lg mb-1">Website + Guesty Pro</h3>
+                            <p className="text-slate-500 text-xs uppercase tracking-wider">System Live / Launch</p>
                         </div>
 
                         <div className="mt-4 pt-4 border-t border-slate-800/50">
@@ -548,17 +558,27 @@
                         </div>
                         </div>
                     </div>
-
-                    <div className="mt-16 text-center border-t border-slate-900 pt-10">
-                        <p className="text-slate-400 mb-6">This approach ensures the property is:</p>
-                        <div className="flex flex-wrap justify-center gap-3">
-                        {["Consistently positioned", "Technically sound", "Easy to manage", "Built for long-term growth"].map((tag) => (
-                            <span key={tag} className="px-4 py-2 rounded-full bg-slate-900 text-white text-sm font-medium border border-slate-800">
-                            {tag}
-                            </span>
-                        ))}
-                        </div>
                     </div>
+                </section>
+
+                {/* Call To Action / Next Steps */}
+                <section className="py-20 px-6 bg-slate-950 border-t border-slate-900">
+                    <div className="container mx-auto max-w-4xl">
+                        <div className="bg-gradient-to-r from-slate-900 to-slate-900/50 border border-slate-800 rounded-3xl p-8 md:p-12 relative overflow-hidden text-center">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/10 rounded-full blur-[80px] -mr-10 -mt-10"></div>
+                            
+                            <h2 className="text-3xl font-bold text-white mb-6 relative z-10">Next Step: Strategy & Kickoff Call</h2>
+                            <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto relative z-10">
+                                Establishing a strong digital foundation is the priority. This conversation is an opportunity to align on the vision for Casa Sempre Avanti and ensure the strategy is perfectly tailored to support the property's long-term growth.
+                            </p>
+                            
+                            <div className="flex justify-center relative z-10">
+                                <button className="flex items-center gap-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-lg shadow-indigo-900/30 group">
+                                    <PhoneCall className="w-5 h-5 group-hover:animate-pulse" />
+                                    <span>Confirm Kickoff for Monday Afternoon</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
