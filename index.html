@@ -68,7 +68,9 @@
             PiggyBank,
             Zap,
             PhoneCall,
-            Gem
+            Gem,
+            Briefcase,
+            Server
         } from 'lucide-react';
 
         const Proposal = () => {
@@ -112,7 +114,7 @@
                 icon: <Building2 className="w-8 h-8" />,
                 title: "Pillar 1 — Property Optimization & Revenue Growth",
                 subtitle: "Maximizing Rate & Spend",
-                keyMetric: "Target Daily Revenue: $2,750+",
+                keyMetric: "Target Daily Revenue: $2,550+",
                 content: "We implement a 'Dual Model' strategy. The primary focus is renting the Whole Estate (10-14 guests) for maximum yield. Simultaneously, we utilize Casa Pietro and Casa Luisa as separate luxury rentals to fill calendar gaps, maintaining high occupancy without compromising the service standard.",
                 revenueOpp: {
                     show: true,
@@ -175,9 +177,9 @@
                         ]
                     },
                     newModel: {
-                        rate: "$2,450", // Base ~1957 + 25%
+                        rate: "$2,250", // Base ~1957 + 15%
                         spend: "$300", // Conservative baseline
-                        total: "$2,750+"
+                        total: "$2,550+"
                     }
                 },
                 details: [
@@ -236,9 +238,12 @@
                 },
                 financials: {
                     show: true,
-                    rev: "$300,000",
-                    y1: "$22,500",
-                    y5: "$112,500+"
+                    rev: "$585,000",
+                    scenario25: "$22,000",
+                    scenario50: "$44,000",
+                    fiveYear25: "$110,000",
+                    fiveYear50: "$220,000",
+                    note: "With Airbnb providing a stable ~50% occupancy baseline, our direct booking strategy focuses on capturing an additional 25% to maximize yield. Many of our clients have successfully shifted to a healthy 50/50 balance (OTA / Direct), reducing dependency while increasing profit margins."
                 }
                 },
                 {
@@ -352,7 +357,7 @@
                     {
                     head: "Channels & CRM",
                     items: [
-                        "Social Media: Facebook, Instagram, TikTok",
+                        "Social Media: Facebook, Instagram", // Removed TikTok
                         "Guesty CRM: Complete customer relationship management",
                         "Email marketing & re-engagement"
                     ]
@@ -448,6 +453,10 @@
                                     src="https://Fullyo.b-cdn.net/2833d32f-6cd7-42e2-a400-beb1eaad954c.jpeg" 
                                     alt="Casa Sempre Avanti" 
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                                    onError={(e) => {
+                                        e.target.style.display = 'none';
+                                        e.target.parentElement.innerHTML = '<div class="flex items-center justify-center h-full bg-slate-900 text-slate-500">Property Image</div>';
+                                    }}
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
                                 <div className="absolute bottom-4 left-4">
@@ -496,7 +505,7 @@
                     <div className="grid md:grid-cols-4 gap-6">
                         {[
                         { icon: <Target className="w-6 h-6" />, title: "Direct Bookings", value: "50% Target", desc: "Maximize margin & control" },
-                        { icon: <TrendingUp className="w-6 h-6" />, title: "Nightly Rate", value: "+25% Increase", desc: "Target $2,450 w/ Services" },
+                        { icon: <TrendingUp className="w-6 h-6" />, title: "Nightly Rate", value: "+15% Increase", desc: "Target $2,250 w/ Services" },
                         { icon: <CreditCard className="w-6 h-6" />, title: "On-Site Spend", value: "$500–$1k Daily", desc: "Profit from Experiences" },
                         { icon: <Users className="w-6 h-6" />, title: "Occupancy", value: "+20–30%", desc: "Increase annual volume" }
                         ].map((metric, i) => (
@@ -573,7 +582,7 @@
                                                         <thead className="text-xs text-slate-500 uppercase border-b border-slate-800">
                                                             <tr>
                                                                 <th className="pb-2 font-medium">Unit</th>
-                                                                <th className="pb-2 font-medium">Nightly Rate</th>
+                                                                <th className="pb-2 font-medium">Current Nightly Rate</th>
                                                                 <th className="pb-2 font-medium text-indigo-400">Per Person</th>
                                                                 <th className="pb-2 font-medium">Per Room</th>
                                                             </tr>
@@ -664,7 +673,7 @@
                                                 <div className="text-center md:text-left">
                                                     <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">New Nightly Rate</p>
                                                     <p className="text-2xl font-bold text-white">{pillar.revenueOpp.newModel.rate}</p>
-                                                    <p className="text-[10px] text-slate-500">(Base + 25%)</p>
+                                                    <p className="text-[10px] text-slate-500">(Base + 15%)</p>
                                                 </div>
                                                 <div className="hidden md:block text-slate-600 text-2xl font-light">+</div>
                                                 <div className="text-center md:text-left">
@@ -729,29 +738,63 @@
 
                                 {/* FINANCIAL SAVINGS BLOCK INSIDE PILLAR 2 */}
                                 {pillar.financials && (
-                                    <div className="mt-8 bg-slate-950 border border-slate-800 rounded-xl p-6 relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
-                                    
-                                    <div className="flex items-center gap-3 mb-6">
-                                        <PiggyBank className="text-emerald-400 w-6 h-6" />
-                                        <h4 className="text-white font-bold text-lg">Projected Commission Savings</h4>
-                                    </div>
+                                    <div className="mt-8 space-y-4">
+                                        {/* Annual Savings Card */}
+                                        <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 relative overflow-hidden">
+                                            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
+                                            
+                                            <div className="flex items-center justify-between mb-6">
+                                                <div className="flex items-center gap-3">
+                                                    <PiggyBank className="text-emerald-400 w-6 h-6" />
+                                                    <h4 className="text-white font-bold text-lg">Projected Commission Savings</h4>
+                                                </div>
+                                                <span className="bg-slate-900 text-slate-400 text-[10px] uppercase font-bold px-2 py-1 rounded border border-slate-800">Yearly</span>
+                                            </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                        <div>
-                                        <p className="text-slate-500 text-xs uppercase tracking-wider mb-1">1-Year Savings</p>
-                                        <p className="text-3xl font-bold text-emerald-400">{pillar.financials.y1}</p>
-                                        <p className="text-slate-500 text-xs mt-2">Based on 15% commission avoided on 50% of {pillar.financials.rev} annual revenue.</p>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-slate-800/50 pb-8 mb-6">
+                                                <div>
+                                                    <p className="text-slate-500 text-xs uppercase tracking-wider mb-1">Scenario A: 25% Direct</p>
+                                                    <p className="text-3xl font-bold text-blue-400">{pillar.financials.scenario25}</p>
+                                                    <p className="text-slate-500 text-xs mt-2">Annual savings (15% fee avoided on 25% of {pillar.financials.rev}).</p>
+                                                </div>
+                                                <div className="relative">
+                                                    <div className="absolute left-0 top-2 bottom-2 w-px bg-slate-800 hidden md:block"></div>
+                                                    <div className="md:pl-8">
+                                                        <p className="text-slate-500 text-xs uppercase tracking-wider mb-1">Scenario B: 50% Direct</p>
+                                                        <p className="text-3xl font-bold text-emerald-400">{pillar.financials.scenario50}</p>
+                                                        <p className="text-slate-500 text-xs mt-2">Annual savings (15% fee avoided on 50% of {pillar.financials.rev}).</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* 5-Year Projection Box */}
+                                            <div className="bg-slate-900/50 rounded-lg p-5 border border-slate-800/50">
+                                                <div className="flex items-center gap-2 mb-4">
+                                                    <TrendingUp className="w-4 h-4 text-indigo-400" />
+                                                    <p className="text-white font-bold text-sm">5-Year Wealth Accumulation</p>
+                                                </div>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <div>
+                                                        <p className="text-slate-500 text-[10px] uppercase tracking-wider mb-0.5">At 25% Direct</p>
+                                                        <p className="text-xl font-bold text-blue-300">{pillar.financials.fiveYear25}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-slate-500 text-[10px] uppercase tracking-wider mb-0.5">At 50% Direct</p>
+                                                        <p className="text-xl font-bold text-emerald-300">{pillar.financials.fiveYear50}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="relative">
-                                        <div className="absolute left-0 top-2 bottom-2 w-px bg-slate-800 hidden md:block"></div>
-                                        <div className="md:pl-8">
-                                            <p className="text-slate-500 text-xs uppercase tracking-wider mb-1">5-Year Total Savings</p>
-                                            <p className="text-3xl font-bold text-emerald-400">{pillar.financials.y5}</p>
-                                            <p className="text-slate-500 text-xs mt-2">Cumulative savings retained directly by owner over 5 years.</p>
-                                        </div>
-                                        </div>
-                                    </div>
+
+                                        {/* Strategy Note */}
+                                        {pillar.financials.note && (
+                                            <div className="bg-indigo-900/10 border border-indigo-500/20 p-4 rounded-xl flex gap-3 items-start">
+                                                <div className="mt-1 w-1.5 h-1.5 rounded-full bg-indigo-400 shrink-0"></div>
+                                                <p className="text-indigo-200 text-xs leading-relaxed">
+                                                    {pillar.financials.note}
+                                                </p>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
 
@@ -771,7 +814,7 @@
                                                 <img 
                                                     src={pillar.caseStudy.image}
                                                     alt="Client Case Study Screenshot" 
-                                                    className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
+                                                    className="w-full h-full object-contain opacity-90 hover:opacity-100 transition-opacity"
                                                     onError={(e) => {
                                                         e.target.style.display = 'none';
                                                         e.target.parentElement.innerHTML = '<div class="flex items-center justify-center h-full text-slate-500 text-xs">Client Results Screenshot</div>';
@@ -827,7 +870,7 @@
                     </div>
 
                     {/* NEW FINANCIAL BREAKDOWN CARD (Below Pillar 5) */}
-                    <div className="mt-16 bg-slate-900 border border-slate-800 rounded-3xl p-8 relative overflow-hidden max-w-6xl mx-auto">
+                    <div className="mt-16 mb-16 bg-slate-900 border border-slate-800 rounded-3xl p-8 relative overflow-hidden max-w-6xl mx-auto">
                         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-[100px] -mr-20 -mt-20"></div>
                         <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-600/10 rounded-full blur-[80px] -ml-10 -mb-10"></div>
                         
@@ -885,17 +928,24 @@
                                             </tr>
                                             <tr>
                                                 <td className="px-4 py-4 font-medium">Seasonal Rate Strategy</td>
-                                                <td className="px-4 py-4 text-slate-500">Static / Ad-Hoc</td>
+                                                <td className="px-4 py-4 text-slate-500">
+                                                    <div className="flex flex-col gap-1 text-xs">
+                                                        <span className="text-slate-400 font-bold">Avg: ~$1,467 <span className="text-slate-600 font-normal">(Est. Blend)</span></span>
+                                                        <span className="text-slate-500">High: $1,957 / Low: $978</span>
+                                                    </div>
+                                                </td>
                                                 <td className="px-4 py-4 text-white bg-blue-900/5">
                                                     <div className="flex flex-col gap-1 text-xs">
-                                                        <span className="text-white font-bold">High: $2,450 <span className="text-slate-500 font-normal">(6 mo)</span></span>
-                                                        <span className="text-yellow-400 font-bold">Low: $1,225 <span className="text-slate-500 font-normal">(50% off)</span></span>
+                                                        <span className="text-blue-300 font-bold">Avg: ~$1,687 <span className="text-blue-400/70 font-normal">(Blended)</span></span>
+                                                        <span className="text-white font-bold">High: $2,250</span>
+                                                        <span className="text-yellow-400 font-bold">Low: $1,125</span>
                                                     </div>
                                                 </td>
                                                 <td className="px-4 py-4 text-white bg-emerald-900/5">
                                                     <div className="flex flex-col gap-1 text-xs">
-                                                        <span className="text-white font-bold">High: $2,450 <span className="text-slate-500 font-normal">(6 mo)</span></span>
-                                                        <span className="text-yellow-400 font-bold">Low: $1,225 <span className="text-slate-500 font-normal">(50% off)</span></span>
+                                                        <span className="text-emerald-300 font-bold">Avg: ~$1,687 <span className="text-emerald-400/70 font-normal">(Blended)</span></span>
+                                                        <span className="text-white font-bold">High: $2,250</span>
+                                                        <span className="text-yellow-400 font-bold">Low: $1,125</span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -907,9 +957,9 @@
                                             </tr>
                                             <tr className="bg-slate-950/50">
                                                 <td className="px-4 py-4 font-bold text-white border-t border-slate-700">Annual Revenue Potential*</td>
-                                                <td className="px-4 py-4 text-slate-500 border-t border-slate-700">~$415,000</td>
-                                                <td className="px-4 py-4 text-blue-400 font-bold text-lg border-t border-slate-700 bg-blue-900/10">~$585,000</td>
-                                                <td className="px-4 py-4 text-emerald-400 font-bold text-lg border-t border-slate-700 bg-emerald-900/10">~$665,000</td>
+                                                <td className="px-4 py-4 text-slate-500 border-t border-slate-700">~$310,000</td>
+                                                <td className="px-4 py-4 text-blue-400 font-bold text-lg border-t border-slate-700 bg-blue-900/10">~$545,000</td>
+                                                <td className="px-4 py-4 text-emerald-400 font-bold text-lg border-t border-slate-700 bg-emerald-900/10">~$625,000</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -919,6 +969,89 @@
                                 *Projection Model: 6 Months High Season @ Full Rate + 6 Months Low Season @ 50% Rate. <br/>
                                 Assumes 75% avg occupancy. Daily service profit ($300 or $600) is consistent year-round based on guest consumption.
                             </p>
+                        </div>
+                    </div>
+
+                    {/* PARTNERSHIP & INVESTMENT SECTION (New) */}
+                    <div className="mb-20 px-6">
+                        <div className="container mx-auto max-w-6xl">
+                            <div className="flex items-center gap-3 mb-8">
+                                <Briefcase className="w-6 h-6 text-white" />
+                                <h2 className="text-2xl font-bold text-white">Investment & Partnership Terms</h2>
+                            </div>
+                            
+                            <div className="grid md:grid-cols-3 gap-6">
+                                {/* Setup Fee Card */}
+                                <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 hover:border-indigo-500/30 transition-colors">
+                                    <div className="w-10 h-10 rounded-lg bg-indigo-900/20 flex items-center justify-center text-indigo-400 mb-4">
+                                        <Rocket className="w-5 h-5" />
+                                    </div>
+                                    <h3 className="text-lg font-bold text-white mb-2">Setup & Launch</h3>
+                                    <div className="text-3xl font-bold text-white mb-4">$5,500 <span className="text-sm font-normal text-slate-500">USD</span></div>
+                                    <p className="text-slate-400 text-sm mb-4">One-time investment to build the entire digital infrastructure.</p>
+                                    <ul className="space-y-3">
+                                        <li className="flex items-start gap-2 text-sm text-slate-300">
+                                            <CheckCircle2 className="w-4 h-4 text-indigo-500 mt-0.5" />
+                                            <span>Custom Direct Booking Website</span>
+                                        </li>
+                                        <li className="flex items-start gap-2 text-sm text-slate-300">
+                                            <CheckCircle2 className="w-4 h-4 text-indigo-500 mt-0.5" />
+                                            <span>Guesty Pro PMS Implementation</span>
+                                        </li>
+                                        <li className="flex items-start gap-2 text-sm text-slate-300">
+                                            <CheckCircle2 className="w-4 h-4 text-indigo-500 mt-0.5" />
+                                            <span>6 Team Onboarding Sessions</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                {/* Monthly Tech Card */}
+                                <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 hover:border-emerald-500/30 transition-colors">
+                                    <div className="w-10 h-10 rounded-lg bg-emerald-900/20 flex items-center justify-center text-emerald-400 mb-4">
+                                        <Server className="w-5 h-5" />
+                                    </div>
+                                    <h3 className="text-lg font-bold text-white mb-2">Monthly Tech Stack</h3>
+                                    <div className="text-3xl font-bold text-white mb-4">~$100 <span className="text-sm font-normal text-slate-500">/ mo</span></div>
+                                    <p className="text-slate-400 text-sm mb-4">Essential software costs paid directly to providers.</p>
+                                    <ul className="space-y-3">
+                                        <li className="flex items-start gap-2 text-sm text-slate-300">
+                                            <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5" />
+                                            <span>Guesty PMS (~$60/mo)</span>
+                                        </li>
+                                        <li className="flex items-start gap-2 text-sm text-slate-300">
+                                            <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5" />
+                                            <span>Dynamic Pricing (~$40/mo)</span>
+                                        </li>
+                                        <li className="flex items-start gap-2 text-sm text-slate-500 italic ml-6">
+                                            *Optional but recommended
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                {/* Management Commission Card */}
+                                <div className="bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border border-indigo-500/20 rounded-xl p-6 relative overflow-hidden">
+                                    <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white mb-4 relative z-10">
+                                        <Users className="w-5 h-5" />
+                                    </div>
+                                    <h3 className="text-lg font-bold text-white mb-2 relative z-10">Management Partnership</h3>
+                                    <div className="text-3xl font-bold text-white mb-4 relative z-10">15% <span className="text-sm font-normal text-slate-300">Commission</span></div>
+                                    <p className="text-indigo-200 text-sm mb-4 relative z-10">Performance-based fee on gross rental revenue.</p>
+                                    <ul className="space-y-3 relative z-10">
+                                        <li className="flex items-start gap-2 text-sm text-slate-200">
+                                            <CheckCircle2 className="w-4 h-4 text-white mt-0.5" />
+                                            <span>Full Service Management</span>
+                                        </li>
+                                        <li className="flex items-start gap-2 text-sm text-slate-200">
+                                            <CheckCircle2 className="w-4 h-4 text-white mt-0.5" />
+                                            <span>Marketing & Growth Strategy</span>
+                                        </li>
+                                        <li className="flex items-start gap-2 text-sm text-slate-200">
+                                            <CheckCircle2 className="w-4 h-4 text-white mt-0.5" />
+                                            <span>24/7 Guest Communication</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
