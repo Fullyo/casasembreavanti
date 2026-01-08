@@ -208,7 +208,7 @@
                 icon: <Globe className="w-8 h-8" />,
                 title: "Pillar 2 — Direct Booking & Brand Independence",
                 subtitle: "Strategic Balance & Savings",
-                keyMetric: "Target: 50% Direct Bookings",
+                keyMetric: "Target: 25%–50% Direct Bookings",
                 content: "We build a sustainable, independent brand to reduce reliance on OTAs. This ensures long-term asset value, higher margins, and complete control over the guest experience. Initial completion: 10–14 days.",
                 highlight: true,
                 details: [
@@ -226,8 +226,7 @@
                     items: [
                         "7-10 Page Custom Direct Booking Website (Design & Build)",
                         "Fully Integrated with Guesty Booking Engine (Real-time Sync)",
-                        "SEO & Mobile Optimization for Maximum Visibility",
-                        "Includes Domain Connection & Hosting (Save $600/year)"
+                        "SEO & Mobile Optimization for Maximum Visibility"
                     ]
                     }
                 ],
@@ -444,7 +443,7 @@
                         </h1>
                         
                         <p className="text-xl md:text-2xl text-slate-400 leading-relaxed mb-16 max-w-3xl">
-                            This proposal marks a strategic evolution for Casa Sempre Avanti. We establish a <strong className="text-white">Dual Partnership</strong> model where Eño manages the property and guest experience on-the-ground, while <strong className="text-white">FULLYO</strong> powers the digital growth engine—managing infrastructure, distribution, and marketing. Our collaboration is built on a clear <strong className="text-indigo-400">3-Stage Growth Process</strong>, designed to stabilize occupancy, elevate amenities, and maximize valuation throughout 2026.
+                            This proposal marks a strategic evolution for Casa Sempre Avanti. We establish a <strong className="text-white">Dual Partnership</strong> model where Eño manages the property and guest experience on-the-ground, while <strong className="text-white">FULLYO</strong> powers the digital growth engine—managing infrastructure, distribution, and marketing. Our collaboration is built on a clear <strong className="text-indigo-400">3-Stage Growth Process</strong>, designed to stabilize occupancy, elevate amenities, and maximize valuation throughout 2026 and beyond.
                         </p>
 
                         {/* Split Layout: Image & Operating Model */}
@@ -508,7 +507,7 @@
                         {[
                         { icon: <Target className="w-6 h-6" />, title: "Direct Bookings", value: "50% Target", desc: "Maximize margin & control" },
                         { icon: <TrendingUp className="w-6 h-6" />, title: "Nightly Rate", value: "+15% Increase", desc: "Target $2,250 w/ Services" },
-                        { icon: <CreditCard className="w-6 h-6" />, title: "On-Site Spend", value: "$500–$1k Daily", desc: "Profit from Experiences" },
+                        { icon: <CreditCard className="w-6 h-6" />, title: "On-Site Spend", value: "$300–$1k Daily", desc: "Profit from Experiences" },
                         { icon: <Users className="w-6 h-6" />, title: "Occupancy", value: "+20–30%", desc: "Increase annual volume" }
                         ].map((metric, i) => (
                         <div key={i} className="bg-slate-950 p-6 rounded-xl border border-slate-800 flex flex-col items-center text-center hover:border-indigo-500/50 transition-colors">
@@ -679,9 +678,9 @@
                                                 </div>
                                                 <div className="hidden md:block text-slate-600 text-2xl font-light">+</div>
                                                 <div className="text-center md:text-left">
-                                                    <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Minimum Daily Spend</p>
+                                                    <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Target Daily Profit</p>
                                                     <p className="text-2xl font-bold text-emerald-400">{pillar.revenueOpp.newModel.spend}</p>
-                                                    <p className="text-[10px] text-slate-500">(Profit)</p>
+                                                    <p className="text-[10px] text-slate-500">(Minimum)</p>
                                                 </div>
                                                 <div className="hidden md:block w-px h-12 bg-slate-700"></div>
                                                 <div className="text-center md:text-right">
@@ -1090,6 +1089,10 @@
                                                     <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 mt-1" />
                                                     <span>Base Rate Optimization (+15%)</span>
                                                 </li>
+                                                <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 mt-1" />
+                                                    <span>Concierge Services Integration</span>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -1114,6 +1117,10 @@
                                                     <Hammer className="w-3.5 h-3.5 text-purple-500 mt-1" />
                                                     <span>Wellness Area (Sauna + Ice Bath)</span>
                                                 </li>
+                                                <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                    <Hammer className="w-3.5 h-3.5 text-purple-500 mt-1" />
+                                                    <span>Fire Pit & Lounge Area</span>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -1129,7 +1136,7 @@
                                             <ul className="space-y-2">
                                                 <li className="flex items-start gap-2 text-sm text-slate-300">
                                                     <TrendingUp className="w-3.5 h-3.5 text-indigo-400 mt-1" />
-                                                    <span>Add'l 10–15% Price Increase</span>
+                                                    <span>Add'l 10–20% Price Increase</span>
                                                 </li>
                                                 <li className="flex items-start gap-2 text-sm text-slate-300">
                                                     <PartyPopper className="w-3.5 h-3.5 text-indigo-400 mt-1" />
@@ -1137,7 +1144,7 @@
                                                 </li>
                                                 <li className="flex items-start gap-2 text-sm text-slate-300">
                                                     <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400 mt-1" />
-                                                    <span>Target: ~$5,000 per Event</span>
+                                                    <span>Target: $2,000–$10,000 per Event</span>
                                                 </li>
                                             </ul>
                                         </div>
