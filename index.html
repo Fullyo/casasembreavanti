@@ -143,9 +143,14 @@
                         text: "At ~$100–$145 per person, the property is undervalued. Whether renting the whole estate or individual units, the inclusion of private chef & transport justifies a significantly higher market position."
                     },
                     strategy: {
-                        title: "Value Injection Strategy",
-                        items: ["Luxury Transport Included", "Bartender Service (Sunset)", "Private Chef (Dinner on Request)", "5-Star Concierge Service"],
-                        result: "Applies to ALL Rental Types"
+                        title: "Luxury Positioning & Value Injection",
+                        items: [
+                            "5-Star Concierge Service (Pre-Arrival & On-Site)",
+                            "Welcome Drinks & Curated Arrival Amenities",
+                            "Luxury Brand Positioning (Exclusive Estate)",
+                            "Luxury Transport Included"
+                        ],
+                        result: "Justifies +15% Rate Increase"
                     },
                     spend: {
                         target: "$300 - $1,000+",
@@ -159,12 +164,17 @@
                             { 
                                 name: "Culinary Experiences", 
                                 desc: "Private Chef for intimate dinners, specialty cooking classes, & custom menus.", 
-                                profit: "$300 Profit" 
+                                profit: "$300+ Profit" 
                             },
                             { 
                                 name: "Sunset & Mixology", 
                                 desc: "Private Bartender service, poolside cocktails, & premium Tequila/Mezcal tastings.", 
-                                profit: "$300 Profit" 
+                                profit: "$300+ Profit" 
+                            },
+                            { 
+                                name: "UTV Rentals", 
+                                desc: "On-site utility vehicle rentals for convenient local exploration.", 
+                                profit: "TBD" 
                             },
                             { 
                                 name: "Land Adventures", 
@@ -199,6 +209,14 @@
                         "Higher RevPAR (Revenue Per Available Room)",
                         "Minimized vacancy (no empty dates)",
                         "Attraction of both large groups and luxury couples/small families"
+                    ]
+                    },
+                    {
+                    head: "Service Standards Defined",
+                    fullWidth: true,
+                    items: [
+                        "Curated Arrival: Signature welcome cocktails (Margaritas/Agua Fresca), chilled towels upon entry, local artisanal gift basket, and fresh tropical flowers.",
+                        "Exclusive Private Estate: Marketing the property not just as a rental, but as a 'Private Resort' with hotel-grade linens, dedicated staff, and premium service—distancing the brand from standard Airbnbs."
                     ]
                     }
                 ]
@@ -387,7 +405,7 @@
                     </div>
                     
                     <div className="hidden md:flex gap-8 text-sm font-medium text-slate-400">
-                        {['Overview', 'Vision', 'Strategy', 'Timeline'].map((item) => (
+                        {['Overview', 'Vision', 'Strategy', 'Partnership'].map((item) => (
                         <button 
                             key={item}
                             onClick={() => scrollTo(item.toLowerCase())}
@@ -408,7 +426,7 @@
                 {isMenuOpen && (
                     <div className="fixed inset-0 z-40 bg-slate-950 pt-24 px-6 md:hidden">
                     <div className="flex flex-col gap-6 text-xl font-medium text-slate-300">
-                        {['Overview', 'Vision', 'Strategy', 'Timeline'].map((item) => (
+                        {['Overview', 'Vision', 'Strategy', 'Partnership'].map((item) => (
                         <button 
                             key={item}
                             onClick={() => scrollTo(item.toLowerCase())}
@@ -723,7 +741,7 @@
 
                                 <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-6">
                                     {pillar.details.map((detail, idx) => (
-                                    <div key={idx} className="bg-slate-950/50 rounded-xl p-5 border border-slate-800/50">
+                                    <div key={idx} className={`bg-slate-950/50 rounded-xl p-5 border border-slate-800/50 ${detail.fullWidth ? 'md:col-span-2' : ''}`}>
                                         <h4 className="text-white font-semibold mb-3 text-sm uppercase tracking-wide opacity-90">{detail.head}</h4>
                                         <ul className="space-y-2">
                                         {detail.items.map((item, i) => (
@@ -972,187 +990,205 @@
                             </p>
                         </div>
                     </div>
+                    </div> {/* Closing container mx-auto */}
 
-                    {/* PARTNERSHIP & INVESTMENT SECTION (New) */}
-                    <div className="mb-20 px-6">
-                        <div className="container mx-auto max-w-6xl">
-                            <div className="flex items-center gap-3 mb-8">
-                                <Briefcase className="w-6 h-6 text-white" />
-                                <h2 className="text-2xl font-bold text-white">Investment & Partnership Terms</h2>
-                            </div>
-                            
-                            <div className="grid md:grid-cols-3 gap-6">
-                                {/* Setup Fee Card */}
-                                <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 hover:border-indigo-500/30 transition-colors">
-                                    <div className="w-10 h-10 rounded-lg bg-indigo-900/20 flex items-center justify-center text-indigo-400 mb-4">
-                                        <Rocket className="w-5 h-5" />
-                                    </div>
-                                    <h3 className="text-lg font-bold text-white mb-2">Setup & Launch</h3>
-                                    <div className="text-3xl font-bold text-white mb-4">$5,500 <span className="text-sm font-normal text-slate-500">USD</span></div>
-                                    <p className="text-slate-400 text-sm mb-4">One-time investment to build the entire digital infrastructure.</p>
-                                    <ul className="space-y-3">
-                                        <li className="flex items-start gap-2 text-sm text-slate-300">
-                                            <CheckCircle2 className="w-4 h-4 text-indigo-500 mt-0.5" />
-                                            <span>Custom Direct Booking Website</span>
-                                        </li>
-                                        <li className="flex items-start gap-2 text-sm text-slate-300">
-                                            <CheckCircle2 className="w-4 h-4 text-indigo-500 mt-0.5" />
-                                            <span>Guesty Pro PMS Implementation</span>
-                                        </li>
-                                        <li className="flex items-start gap-2 text-sm text-slate-300">
-                                            <CheckCircle2 className="w-4 h-4 text-indigo-500 mt-0.5" />
-                                            <span>6 Team Onboarding Sessions</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                    </section>
 
-                                {/* Monthly Tech Card */}
-                                <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 hover:border-emerald-500/30 transition-colors">
-                                    <div className="w-10 h-10 rounded-lg bg-emerald-900/20 flex items-center justify-center text-emerald-400 mb-4">
-                                        <Server className="w-5 h-5" />
-                                    </div>
-                                    <h3 className="text-lg font-bold text-white mb-2">Monthly Tech Stack</h3>
-                                    <div className="text-3xl font-bold text-white mb-4">~$100 <span className="text-sm font-normal text-slate-500">/ mo</span></div>
-                                    <p className="text-slate-400 text-sm mb-4">Essential software costs paid directly to providers.</p>
-                                    <ul className="space-y-3">
-                                        <li className="flex items-start gap-2 text-sm text-slate-300">
-                                            <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5" />
-                                            <span>Guesty PMS (~$60/mo)</span>
-                                        </li>
-                                        <li className="flex items-start gap-2 text-sm text-slate-300">
-                                            <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5" />
-                                            <span>Web Hosting (~$40/mo)</span>
-                                        </li>
-                                        <li className="flex items-start gap-2 text-sm text-slate-500 italic ml-6">
-                                            *Passed through at cost
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                {/* Management Commission Card */}
-                                <div className="bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border border-indigo-500/20 rounded-xl p-6 relative overflow-hidden">
-                                    <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white mb-4 relative z-10">
-                                        <Users className="w-5 h-5" />
-                                    </div>
-                                    <h3 className="text-lg font-bold text-white mb-2 relative z-10">Management Partnership</h3>
-                                    <div className="text-3xl font-bold text-white mb-4 relative z-10">15% <span className="text-sm font-normal text-slate-300">Commission</span></div>
-                                    <p className="text-indigo-200 text-sm mb-4 relative z-10">Performance-based fee on gross rental revenue.</p>
-                                    <ul className="space-y-3 relative z-10">
-                                        <li className="flex items-start gap-2 text-sm text-slate-200">
-                                            <CheckCircle2 className="w-4 h-4 text-white mt-0.5" />
-                                            <span>Full Service Management</span>
-                                        </li>
-                                        <li className="flex items-start gap-2 text-sm text-slate-200">
-                                            <CheckCircle2 className="w-4 h-4 text-white mt-0.5" />
-                                            <span>Marketing & Growth Strategy</span>
-                                        </li>
-                                        <li className="flex items-start gap-2 text-sm text-slate-200">
-                                            <CheckCircle2 className="w-4 h-4 text-white mt-0.5" />
-                                            <span>24/7 Guest Communication</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                    {/* NEW: PARTNERSHIP & ROADMAP SECTION */}
+                    <section id="partnership" className="py-20 relative bg-slate-950 border-t border-slate-900">
+                        {/* Background Gradients */}
+                        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-10 pointer-events-none">
+                            <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-900/20 rounded-full blur-[120px]"></div>
+                            <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-900/20 rounded-full blur-[100px]"></div>
                         </div>
-                    </div>
 
-                    {/* NEW: 2026 STRATEGIC GROWTH ROADMAP */}
-                    <div className="mb-20 px-6">
-                        <div className="container mx-auto max-w-6xl">
-                            <div className="flex items-center gap-3 mb-8">
-                                <TrendingUp className="w-6 h-6 text-white" />
-                                <h2 className="text-2xl font-bold text-white">2026 Strategic Growth Roadmap</h2>
-                            </div>
-                            
-                            <div className="relative">
-                                {/* Connecting Line (Desktop) */}
-                                <div className="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-slate-800 z-0"></div>
-
-                                <div className="grid md:grid-cols-3 gap-8 relative z-10">
-                                    {/* Stage 1 */}
-                                    <div className="bg-slate-950 border border-slate-800 p-6 rounded-xl hover:border-blue-500/40 transition-all group">
-                                        <div className="w-10 h-10 rounded-full bg-blue-900/20 text-blue-400 font-bold flex items-center justify-center mb-4 border border-blue-900/40 group-hover:bg-blue-600 group-hover:text-white transition-colors relative z-20">1</div>
-                                        <h3 className="text-white font-bold text-lg mb-1">Stage 1: Foundation</h3>
-                                        <p className="text-blue-400 text-xs font-bold uppercase tracking-wider mb-4">Winter 2026</p>
-                                        <div className="space-y-3">
-                                            <p className="text-slate-400 text-sm">Immediate implementation of the "Casa Sempre Avanti" digital ecosystem.</p>
-                                            <ul className="space-y-2">
-                                                <li className="flex items-start gap-2 text-sm text-slate-300">
-                                                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 mt-1" />
-                                                    <span>Direct Booking Website Launch</span>
-                                                </li>
-                                                <li className="flex items-start gap-2 text-sm text-slate-300">
-                                                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 mt-1" />
-                                                    <span>Channel Distribution (OTA Sync)</span>
-                                                </li>
-                                                <li className="flex items-start gap-2 text-sm text-slate-300">
-                                                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 mt-1" />
-                                                    <span>Base Rate Optimization (+15%)</span>
-                                                </li>
-                                                <li className="flex items-start gap-2 text-sm text-slate-300">
-                                                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 mt-1" />
-                                                    <span>Concierge Services Integration</span>
-                                                </li>
-                                            </ul>
+                        {/* PARTNERSHIP & INVESTMENT SECTION */}
+                        <div className="mb-20 px-6 relative z-10">
+                            <div className="container mx-auto max-w-6xl">
+                                <div className="text-center mb-16">
+                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-indigo-400 text-sm font-medium mb-4">
+                                        <Briefcase className="w-4 h-4" />
+                                        <span>Partnership & Next Steps</span>
+                                    </div>
+                                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Investment & Execution Plan</h2>
+                                    <p className="text-slate-400 max-w-2xl mx-auto text-lg">
+                                        Transparency is key. Here is the structure of our partnership and the roadmap to achieving our shared goals.
+                                    </p>
+                                </div>
+                                
+                                <div className="grid md:grid-cols-3 gap-6">
+                                    {/* Setup Fee Card */}
+                                    <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-indigo-500/30 transition-colors">
+                                        <div className="w-10 h-10 rounded-lg bg-indigo-900/20 flex items-center justify-center text-indigo-400 mb-4">
+                                            <Rocket className="w-5 h-5" />
                                         </div>
+                                        <h3 className="text-lg font-bold text-white mb-2">Setup & Launch</h3>
+                                        <div className="text-3xl font-bold text-white mb-4">$5,500 <span className="text-sm font-normal text-slate-500">USD</span></div>
+                                        <p className="text-slate-400 text-sm mb-4">One-time investment to build the entire digital infrastructure.</p>
+                                        <ul className="space-y-3 border-t border-slate-800/50 pt-4">
+                                            <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                <CheckCircle2 className="w-4 h-4 text-indigo-500 mt-0.5" />
+                                                <span>Custom Direct Booking Website</span>
+                                            </li>
+                                            <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                <CheckCircle2 className="w-4 h-4 text-indigo-500 mt-0.5" />
+                                                <span>Guesty Pro PMS Implementation</span>
+                                            </li>
+                                            <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                <CheckCircle2 className="w-4 h-4 text-indigo-500 mt-0.5" />
+                                                <span>6 Team Onboarding Sessions</span>
+                                            </li>
+                                        </ul>
                                     </div>
 
-                                    {/* Stage 2 */}
-                                    <div className="bg-slate-950 border border-slate-800 p-6 rounded-xl hover:border-purple-500/40 transition-all group">
-                                        <div className="w-10 h-10 rounded-full bg-purple-900/20 text-purple-400 font-bold flex items-center justify-center mb-4 border border-purple-900/40 group-hover:bg-purple-600 group-hover:text-white transition-colors relative z-20">2</div>
-                                        <h3 className="text-white font-bold text-lg mb-1">Stage 2: Amenity Expansion</h3>
-                                        <p className="text-purple-400 text-xs font-bold uppercase tracking-wider mb-4">Summer 2026</p>
-                                        <div className="space-y-3">
-                                            <p className="text-slate-400 text-sm">Physical upgrades to the property to unlock the next tier of luxury rates.</p>
-                                            <ul className="space-y-2">
-                                                <li className="flex items-start gap-2 text-sm text-slate-300">
-                                                    <Hammer className="w-3.5 h-3.5 text-purple-500 mt-1" />
-                                                    <span>Pickleball Court Addition</span>
-                                                </li>
-                                                <li className="flex items-start gap-2 text-sm text-slate-300">
-                                                    <Hammer className="w-3.5 h-3.5 text-purple-500 mt-1" />
-                                                    <span>Extended Patio for Events</span>
-                                                </li>
-                                                <li className="flex items-start gap-2 text-sm text-slate-300">
-                                                    <Hammer className="w-3.5 h-3.5 text-purple-500 mt-1" />
-                                                    <span>Wellness Area (Sauna + Ice Bath)</span>
-                                                </li>
-                                                <li className="flex items-start gap-2 text-sm text-slate-300">
-                                                    <Hammer className="w-3.5 h-3.5 text-purple-500 mt-1" />
-                                                    <span>Fire Pit & Lounge Area</span>
-                                                </li>
-                                            </ul>
+                                    {/* Monthly Tech Card */}
+                                    <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-emerald-500/30 transition-colors">
+                                        <div className="w-10 h-10 rounded-lg bg-emerald-900/20 flex items-center justify-center text-emerald-400 mb-4">
+                                            <Server className="w-5 h-5" />
                                         </div>
+                                        <h3 className="text-lg font-bold text-white mb-2">Monthly Tech Stack</h3>
+                                        <div className="text-3xl font-bold text-white mb-4">~$100 <span className="text-sm font-normal text-slate-500">/ mo</span></div>
+                                        <p className="text-slate-400 text-sm mb-4">Essential software costs paid directly to providers.</p>
+                                        <ul className="space-y-3 border-t border-slate-800/50 pt-4">
+                                            <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5" />
+                                                <span>Guesty PMS (~$60/mo)</span>
+                                            </li>
+                                            <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5" />
+                                                <span>Web Hosting (~$40/mo)</span>
+                                            </li>
+                                            <li className="flex items-start gap-2 text-sm text-slate-500 italic ml-6">
+                                                *Passed through at cost
+                                            </li>
+                                        </ul>
                                     </div>
 
-                                    {/* Stage 3 */}
-                                    <div className="bg-gradient-to-br from-slate-900 to-indigo-950/30 border border-indigo-500/20 p-6 rounded-xl hover:border-indigo-400/50 transition-all group relative overflow-hidden">
-                                        <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-600/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
-                                        <div className="w-10 h-10 rounded-full bg-indigo-500 text-white font-bold flex items-center justify-center mb-4 border border-indigo-400 group-hover:scale-110 transition-transform relative z-20">3</div>
-                                        <h3 className="text-white font-bold text-lg mb-1">Stage 3: Valuation & Venues</h3>
-                                        <p className="text-indigo-400 text-xs font-bold uppercase tracking-wider mb-4">Fall 2026</p>
-                                        <div className="space-y-3 relative z-10">
-                                            <p className="text-slate-400 text-sm">Leveraging new amenities for significant rate increases and event revenue.</p>
-                                            <ul className="space-y-2">
-                                                <li className="flex items-start gap-2 text-sm text-slate-300">
-                                                    <TrendingUp className="w-3.5 h-3.5 text-indigo-400 mt-1" />
-                                                    <span>Add'l 10–20% Price Increase</span>
-                                                </li>
-                                                <li className="flex items-start gap-2 text-sm text-slate-300">
-                                                    <PartyPopper className="w-3.5 h-3.5 text-indigo-400 mt-1" />
-                                                    <span>Venue Marketing (Weddings/Retreats)</span>
-                                                </li>
-                                                <li className="flex items-start gap-2 text-sm text-slate-300">
-                                                    <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400 mt-1" />
-                                                    <span>Target: $2,000–$10,000 per Event</span>
-                                                </li>
-                                            </ul>
+                                    {/* Management Commission Card */}
+                                    <div className="bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border border-indigo-500/20 rounded-xl p-6 relative overflow-hidden">
+                                        <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white mb-4 relative z-10">
+                                            <Users className="w-5 h-5" />
                                         </div>
+                                        <h3 className="text-lg font-bold text-white mb-2 relative z-10">Management Partnership</h3>
+                                        <div className="text-3xl font-bold text-white mb-4 relative z-10">15% <span className="text-sm font-normal text-slate-300">Commission</span></div>
+                                        <p className="text-indigo-200 text-sm mb-4 relative z-10">Performance-based fee on gross rental revenue.</p>
+                                        <ul className="space-y-3 relative z-10 border-t border-white/10 pt-4">
+                                            <li className="flex items-start gap-2 text-sm text-slate-200">
+                                                <CheckCircle2 className="w-4 h-4 text-white mt-0.5" />
+                                                <span>Full Service Management</span>
+                                            </li>
+                                            <li className="flex items-start gap-2 text-sm text-slate-200">
+                                                <CheckCircle2 className="w-4 h-4 text-white mt-0.5" />
+                                                <span>Marketing & Growth Strategy</span>
+                                            </li>
+                                            <li className="flex items-start gap-2 text-sm text-slate-200">
+                                                <CheckCircle2 className="w-4 h-4 text-white mt-0.5" />
+                                                <span>24/7 Guest Communication</span>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                        {/* NEW: 2026 STRATEGIC GROWTH ROADMAP */}
+                        <div className="px-6 relative z-10">
+                            <div className="container mx-auto max-w-6xl">
+                                <div className="flex items-center gap-3 mb-8">
+                                    <TrendingUp className="w-6 h-6 text-white" />
+                                    <h2 className="text-2xl font-bold text-white">2026 Strategic Growth Roadmap</h2>
+                                </div>
+                                
+                                <div className="relative">
+                                    {/* Connecting Line (Desktop) */}
+                                    <div className="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-slate-800 z-0"></div>
+
+                                    <div className="grid md:grid-cols-3 gap-8 relative z-10">
+                                        {/* Stage 1 */}
+                                        <div className="bg-slate-950 border border-slate-800 p-6 rounded-xl hover:border-blue-500/40 transition-all group">
+                                            <div className="w-10 h-10 rounded-full bg-blue-900/20 text-blue-400 font-bold flex items-center justify-center mb-4 border border-blue-900/40 group-hover:bg-blue-600 group-hover:text-white transition-colors relative z-20">1</div>
+                                            <h3 className="text-white font-bold text-lg mb-1">Stage 1: Foundation</h3>
+                                            <p className="text-blue-400 text-xs font-bold uppercase tracking-wider mb-4">Winter 2026</p>
+                                            <div className="space-y-3">
+                                                <p className="text-slate-400 text-sm">Immediate implementation of the "Casa Sempre Avanti" digital ecosystem.</p>
+                                                <ul className="space-y-2">
+                                                    <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 mt-1" />
+                                                        <span>Direct Booking Website Launch</span>
+                                                    </li>
+                                                    <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 mt-1" />
+                                                        <span>Channel Distribution (OTA Sync)</span>
+                                                    </li>
+                                                    <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 mt-1" />
+                                                        <span>Base Rate Optimization (+15%)</span>
+                                                    </li>
+                                                    <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 mt-1" />
+                                                        <span>Concierge Services Integration</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        {/* Stage 2 */}
+                                        <div className="bg-slate-950 border border-slate-800 p-6 rounded-xl hover:border-purple-500/40 transition-all group">
+                                            <div className="w-10 h-10 rounded-full bg-purple-900/20 text-purple-400 font-bold flex items-center justify-center mb-4 border border-purple-900/40 group-hover:bg-purple-600 group-hover:text-white transition-colors relative z-20">2</div>
+                                            <h3 className="text-white font-bold text-lg mb-1">Stage 2: Amenity Expansion</h3>
+                                            <p className="text-purple-400 text-xs font-bold uppercase tracking-wider mb-4">Summer 2026</p>
+                                            <div className="space-y-3">
+                                                <p className="text-slate-400 text-sm">Physical upgrades to the property to unlock the next tier of luxury rates.</p>
+                                                <ul className="space-y-2">
+                                                    <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                        <Hammer className="w-3.5 h-3.5 text-purple-500 mt-1" />
+                                                        <span>Pickleball Court Addition</span>
+                                                    </li>
+                                                    <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                        <Hammer className="w-3.5 h-3.5 text-purple-500 mt-1" />
+                                                        <span>Extended Patio for Events</span>
+                                                    </li>
+                                                    <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                        <Hammer className="w-3.5 h-3.5 text-purple-500 mt-1" />
+                                                        <span>Wellness Area (Sauna + Ice Bath)</span>
+                                                    </li>
+                                                    <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                        <Hammer className="w-3.5 h-3.5 text-purple-500 mt-1" />
+                                                        <span>Fire Pit & Lounge Area</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        {/* Stage 3 */}
+                                        <div className="bg-gradient-to-br from-slate-900 to-indigo-950/30 border border-indigo-500/20 p-6 rounded-xl hover:border-indigo-400/50 transition-all group relative overflow-hidden">
+                                            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-600/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
+                                            <div className="w-10 h-10 rounded-full bg-indigo-500 text-white font-bold flex items-center justify-center mb-4 border border-indigo-400 group-hover:scale-110 transition-transform relative z-20">3</div>
+                                            <h3 className="text-white font-bold text-lg mb-1">Stage 3: Valuation & Venues</h3>
+                                            <p className="text-indigo-400 text-xs font-bold uppercase tracking-wider mb-4">Fall 2026</p>
+                                            <div className="space-y-3 relative z-10">
+                                                <p className="text-slate-400 text-sm">Leveraging new amenities for significant rate increases and event revenue.</p>
+                                                <ul className="space-y-2">
+                                                    <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                        <TrendingUp className="w-3.5 h-3.5 text-indigo-400 mt-1" />
+                                                        <span>Add'l 10–20% Price Increase</span>
+                                                    </li>
+                                                    <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                        <PartyPopper className="w-3.5 h-3.5 text-indigo-400 mt-1" />
+                                                        <span>Venue Marketing (Weddings/Retreats)</span>
+                                                    </li>
+                                                    <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                        <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400 mt-1" />
+                                                        <span>Target: $2,000–$10,000 per Event</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
                     {/* Final CTA / Timeline */}
                     <section className="py-24 px-6 bg-gradient-to-b from-slate-900 to-slate-950 border-t border-slate-800">
@@ -1175,9 +1211,6 @@
                             </a>
                         </div>
                     </section>
-
-                    </div>
-                </section>
 
                 {/* Footer */}
                 <footer className="py-12 bg-slate-950 border-t border-slate-900 text-center">
