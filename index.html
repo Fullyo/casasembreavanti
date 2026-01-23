@@ -8,9 +8,9 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Signature Pad & HTML2PDF -->
+    <!-- Signature Pad & html2canvas -->
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <!-- Tailwind Config for Custom Fonts/Colors if needed -->
     <script>
@@ -95,7 +95,8 @@
             AlertCircle,
             PenTool,
             Download,
-            Loader2
+            Loader2,
+            Image as ImageIcon
         } from 'lucide-react';
 
         const Proposal = () => {
@@ -189,17 +190,19 @@
                 setIsSubmitting(true);
 
                 try {
-                    // 1. Generate PDF Blob
+                    // 1. Generate PNG Blob (Replaced html2pdf with html2canvas for image export)
                     const element = contractContentRef.current;
-                    const opt = {
-                        margin: [10, 10, 10, 10], // top, left, bottom, right
-                        filename: 'Casa_Sempre_Avanti_Agreement.pdf',
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: { scale: 2, scrollY: 0, useCORS: true }, // scrollY: 0 fixes white page bug
-                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                    };
+                    
+                    const canvas = await html2canvas(element, {
+                        scale: 2, // High quality
+                        useCORS: true, // Handle images
+                        scrollY: -window.scrollY, // Handle scroll position
+                        windowWidth: document.documentElement.offsetWidth, // Full width
+                        backgroundColor: '#020617' // Ensure background color matches body
+                    });
 
-                    const pdfBlob = await html2pdf().set(opt).from(element).output('blob');
+                    // Convert Canvas to Blob
+                    const pngBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1.0));
 
                     // 2. Prepare Form Data for Netlify
                     const submissionData = new FormData();
@@ -215,8 +218,8 @@
                     submissionData.append('enoSignature', enoSignaturePad.current.toDataURL());
                     submissionData.append('fullyoSignature', fullyoSignaturePad.current.toDataURL());
 
-                    // Append PDF File
-                    submissionData.append('contract', pdfBlob, 'Casa_Sempre_Avanti_Agreement.pdf');
+                    // Append PNG File
+                    submissionData.append('contract', pngBlob, 'Casa_Sempre_Avanti_Agreement.png');
 
                     // 3. Submit to Netlify
                     await fetch('/', {
@@ -225,7 +228,10 @@
                     });
 
                     // 4. Trigger Auto-Download for User
-                    html2pdf().set(opt).from(element).save();
+                    const link = document.createElement('a');
+                    link.download = 'Casa_Sempre_Avanti_Agreement.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
 
                     setSubmitStatus('success');
                     setIsSubmitting(false);
