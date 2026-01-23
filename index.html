@@ -8,6 +8,10 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Signature Pad & HTML2PDF -->
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <!-- Tailwind Config for Custom Fonts/Colors if needed -->
     <script>
         tailwind.config = {
@@ -35,13 +39,26 @@
     
     <style>
         body { background-color: #020617; /* match slate-950 */ }
+        /* Custom scrollbar for signature pads if needed */
+        canvas { touch-action: none; }
     </style>
 </head>
 <body>
+    <!-- Hidden Netlify Form for Detection -->
+    <form name="contract-signed" netlify netlify-honeypot="bot-field" hidden>
+        <input type="text" name="ownerName" />
+        <input type="text" name="ownerTitle" />
+        <input type="text" name="enoName" />
+        <input type="text" name="enoTitle" />
+        <input type="text" name="fullyoName" />
+        <input type="text" name="fullyoTitle" />
+        <input type="hidden" name="form-name" value="contract-signed" />
+    </form>
+
     <div id="root"></div>
 
     <script type="text/babel" data-type="module">
-        import React, { useState, useEffect } from 'react';
+        import React, { useState, useEffect, useRef } from 'react';
         import { createRoot } from 'react-dom/client';
         import { 
             Building2, 
@@ -75,19 +92,61 @@
             PartyPopper,
             FileText,
             Scale,
-            AlertCircle
+            AlertCircle,
+            PenTool,
+            Download,
+            Loader2
         } from 'lucide-react';
 
         const Proposal = () => {
             const [activeSection, setActiveSection] = useState('overview');
             const [isMenuOpen, setIsMenuOpen] = useState(false);
             const [scrolled, setScrolled] = useState(false);
+            const [isSubmitting, setIsSubmitting] = useState(false);
+            const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error'
+
+            // Refs for PDF Generation
+            const contractContentRef = useRef(null);
+
+            // Refs for Signature Pads
+            const ownerPadRef = useRef(null);
+            const enoPadRef = useRef(null);
+            const fullyoPadRef = useRef(null);
+            
+            // Refs for Signature Pad Instances
+            const ownerSignaturePad = useRef(null);
+            const enoSignaturePad = useRef(null);
+            const fullyoSignaturePad = useRef(null);
+
+            // Form State
+            const [formData, setFormData] = useState({
+                ownerName: '', ownerTitle: '',
+                enoName: '', enoTitle: '',
+                fullyoName: '', fullyoTitle: ''
+            });
 
             useEffect(() => {
                 const handleScroll = () => {
                     setScrolled(window.scrollY > 50);
                 };
                 window.addEventListener('scroll', handleScroll);
+                
+                // Initialize Signature Pads
+                if (ownerPadRef.current && enoPadRef.current && fullyoPadRef.current) {
+                    const resizeCanvas = (canvas) => {
+                        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                        canvas.width = canvas.offsetWidth * ratio;
+                        canvas.height = canvas.offsetHeight * ratio;
+                        canvas.getContext("2d").scale(ratio, ratio);
+                    };
+
+                    [ownerPadRef.current, enoPadRef.current, fullyoPadRef.current].forEach(resizeCanvas);
+                    
+                    ownerSignaturePad.current = new window.SignaturePad(ownerPadRef.current);
+                    enoSignaturePad.current = new window.SignaturePad(enoPadRef.current);
+                    fullyoSignaturePad.current = new window.SignaturePad(fullyoPadRef.current);
+                }
+
                 return () => window.removeEventListener('scroll', handleScroll);
             }, []);
 
@@ -97,6 +156,77 @@
                     element.scrollIntoView({ behavior: 'smooth' });
                     setIsMenuOpen(false);
                     setActiveSection(id);
+                }
+            };
+
+            const handleClear = (padRef) => {
+                padRef.current?.clear();
+            };
+
+            const handleInputChange = (e) => {
+                setFormData({ ...formData, [e.target.name]: e.target.value });
+            };
+
+            const handleSubmit = async () => {
+                // Validation
+                if (ownerSignaturePad.current.isEmpty() || enoSignaturePad.current.isEmpty() || fullyoSignaturePad.current.isEmpty()) {
+                    alert("Please ensure all parties have signed the document.");
+                    return;
+                }
+                if (!formData.ownerName || !formData.enoName || !formData.fullyoName) {
+                    alert("Please fill in all Name fields.");
+                    return;
+                }
+
+                setIsSubmitting(true);
+
+                try {
+                    // 1. Generate PDF Blob
+                    const element = contractContentRef.current;
+                    const opt = {
+                        margin: [10, 10, 10, 10], // top, left, bottom, right
+                        filename: 'Casa_Sempre_Avanti_Agreement.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2, scrollY: 0, useCORS: true }, // scrollY: 0 fixes white page bug
+                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                    };
+
+                    const pdfBlob = await html2pdf().set(opt).from(element).output('blob');
+
+                    // 2. Prepare Form Data for Netlify
+                    const submissionData = new FormData();
+                    submissionData.append('form-name', 'contract-signed');
+                    
+                    // Append text fields
+                    Object.keys(formData).forEach(key => {
+                        submissionData.append(key, formData[key]);
+                    });
+
+                    // Append Signatures (Base64)
+                    submissionData.append('ownerSignature', ownerSignaturePad.current.toDataURL());
+                    submissionData.append('enoSignature', enoSignaturePad.current.toDataURL());
+                    submissionData.append('fullyoSignature', fullyoSignaturePad.current.toDataURL());
+
+                    // Append PDF File
+                    submissionData.append('contract', pdfBlob, 'Casa_Sempre_Avanti_Agreement.pdf');
+
+                    // 3. Submit to Netlify
+                    await fetch('/', {
+                        method: 'POST',
+                        body: submissionData
+                    });
+
+                    // 4. Trigger Auto-Download for User
+                    html2pdf().set(opt).from(element).save();
+
+                    setSubmitStatus('success');
+                    setIsSubmitting(false);
+
+                } catch (error) {
+                    console.error("Submission Error:", error);
+                    setSubmitStatus('error');
+                    setIsSubmitting(false);
+                    alert("There was an error submitting the contract. Please try again.");
                 }
             };
 
@@ -998,6 +1128,8 @@
                     </section>
 
                     {/* NEW: PARTNERSHIP & ROADMAP SECTION */}
+                    <div ref={contractContentRef}> {/* WRAPPER START FOR PDF GENERATION */}
+                    
                     <section id="partnership" className="py-20 relative bg-slate-950 border-t border-slate-900">
                         {/* Background Gradients */}
                         <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-10 pointer-events-none">
@@ -1372,27 +1504,172 @@
                         </div>
                     </section>
 
-                    {/* Final CTA / Timeline */}
+                    {/* NEW: SIGNATURE SECTION */}
                     <section className="py-24 px-6 bg-gradient-to-b from-slate-900 to-slate-950 border-t border-slate-800">
-                        <div className="container mx-auto max-w-4xl text-center">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-8">
-                                <Rocket className="w-4 h-4" />
-                                <span>Launch Timeline: 10–14 Days</span>
+                        <div className="container mx-auto max-w-6xl">
+                            <div className="text-center mb-16">
+                                <h2 className="text-3xl font-bold text-white mb-4">Execute Agreement</h2>
+                                <p className="text-slate-400">Please sign below to formalize the partnership and commence Phase 1.</p>
                             </div>
-                            
-                            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
-                                Ready to Elevate Casa Sempre Avanti?
-                            </h2>
-                            
-                            <p className="text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-                                We are ready to deploy the entire digital infrastructure, sync your channels, and launch the direct booking platform immediately.
-                            </p>
 
-                            <a href="https://www.fullyo.io/" target="_blank" rel="noreferrer" className="inline-block bg-white text-slate-950 px-8 py-4 rounded-full font-bold text-lg hover:bg-indigo-50 transition-colors shadow-lg shadow-indigo-500/20">
-                                Let's Start the Transformation
-                            </a>
+                            <div className="grid md:grid-cols-3 gap-8 mb-12">
+                                
+                                {/* Owner Signature Block */}
+                                <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
+                                    <div className="mb-4">
+                                        <h4 className="text-white font-bold flex items-center gap-2">
+                                            <PenTool className="w-4 h-4 text-indigo-400" /> Owner
+                                        </h4>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-xs text-slate-500 uppercase font-bold mb-1">Full Name</label>
+                                            <input 
+                                                type="text" 
+                                                name="ownerName"
+                                                value={formData.ownerName}
+                                                onChange={handleInputChange}
+                                                className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-white text-sm focus:border-indigo-500 focus:outline-none"
+                                                placeholder="Enter Full Name"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs text-slate-500 uppercase font-bold mb-1">Title</label>
+                                            <input 
+                                                type="text" 
+                                                name="ownerTitle"
+                                                value={formData.ownerTitle}
+                                                onChange={handleInputChange}
+                                                className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-white text-sm focus:border-indigo-500 focus:outline-none"
+                                                placeholder="Property Owner"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs text-slate-500 uppercase font-bold mb-1">Signature</label>
+                                            <div className="border border-slate-700 rounded bg-white touch-none">
+                                                <canvas ref={ownerPadRef} className="w-full h-32 cursor-crosshair"></canvas>
+                                            </div>
+                                            <button onClick={() => handleClear(ownerSignaturePad)} className="text-xs text-red-400 mt-2 hover:text-red-300">Clear Signature</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Eño Signature Block */}
+                                <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
+                                    <div className="mb-4">
+                                        <h4 className="text-white font-bold flex items-center gap-2">
+                                            <PenTool className="w-4 h-4 text-emerald-400" /> Eño
+                                        </h4>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-xs text-slate-500 uppercase font-bold mb-1">Full Name</label>
+                                            <input 
+                                                type="text" 
+                                                name="enoName"
+                                                value={formData.enoName}
+                                                onChange={handleInputChange}
+                                                className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-white text-sm focus:border-emerald-500 focus:outline-none"
+                                                placeholder="Enter Full Name"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs text-slate-500 uppercase font-bold mb-1">Title</label>
+                                            <input 
+                                                type="text" 
+                                                name="enoTitle"
+                                                value={formData.enoTitle}
+                                                onChange={handleInputChange}
+                                                className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-white text-sm focus:border-emerald-500 focus:outline-none"
+                                                placeholder="Operations Partner"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs text-slate-500 uppercase font-bold mb-1">Signature</label>
+                                            <div className="border border-slate-700 rounded bg-white touch-none">
+                                                <canvas ref={enoPadRef} className="w-full h-32 cursor-crosshair"></canvas>
+                                            </div>
+                                            <button onClick={() => handleClear(enoSignaturePad)} className="text-xs text-red-400 mt-2 hover:text-red-300">Clear Signature</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Fullyo Signature Block */}
+                                <div className="bg-slate-900 border border-slate-700 rounded-xl p-6">
+                                    <div className="mb-4">
+                                        <h4 className="text-white font-bold flex items-center gap-2">
+                                            <PenTool className="w-4 h-4 text-purple-400" /> Fullyo
+                                        </h4>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-xs text-slate-500 uppercase font-bold mb-1">Full Name</label>
+                                            <input 
+                                                type="text" 
+                                                name="fullyoName"
+                                                value={formData.fullyoName}
+                                                onChange={handleInputChange}
+                                                className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-white text-sm focus:border-purple-500 focus:outline-none"
+                                                placeholder="Enter Full Name"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs text-slate-500 uppercase font-bold mb-1">Title</label>
+                                            <input 
+                                                type="text" 
+                                                name="fullyoTitle"
+                                                value={formData.fullyoTitle}
+                                                onChange={handleInputChange}
+                                                className="w-full bg-slate-950 border border-slate-800 rounded p-2 text-white text-sm focus:border-purple-500 focus:outline-none"
+                                                placeholder="Growth Partner"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs text-slate-500 uppercase font-bold mb-1">Signature</label>
+                                            <div className="border border-slate-700 rounded bg-white touch-none">
+                                                <canvas ref={fullyoPadRef} className="w-full h-32 cursor-crosshair"></canvas>
+                                            </div>
+                                            <button onClick={() => handleClear(fullyoSignaturePad)} className="text-xs text-red-400 mt-2 hover:text-red-300">Clear Signature</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div className="text-center">
+                                <button 
+                                    onClick={handleSubmit}
+                                    disabled={isSubmitting}
+                                    className={`
+                                        bg-white text-slate-950 px-8 py-4 rounded-full font-bold text-lg 
+                                        hover:bg-indigo-50 transition-all shadow-lg shadow-indigo-500/20 
+                                        flex items-center justify-center gap-3 mx-auto min-w-[280px]
+                                        ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}
+                                    `}
+                                >
+                                    {isSubmitting ? (
+                                        <>
+                                            <Loader2 className="w-5 h-5 animate-spin" />
+                                            Processing Contract...
+                                        </>
+                                    ) : (
+                                        <>
+                                            Sign & Submit Agreement
+                                            <ArrowRight className="w-5 h-5" />
+                                        </>
+                                    )}
+                                </button>
+                                {submitStatus === 'success' && (
+                                    <div className="mt-4 p-4 bg-emerald-900/30 border border-emerald-500/30 rounded-lg inline-flex items-center gap-2 text-emerald-400">
+                                        <CheckCircle2 className="w-5 h-5" />
+                                        <span>Contract signed successfully! Your PDF is downloading.</span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </section>
+                    
+                    </div> {/* WRAPPER END FOR PDF GENERATION */}
 
                 {/* Footer */}
                 <footer className="py-12 bg-slate-950 border-t border-slate-900 text-center">
