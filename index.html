@@ -168,13 +168,21 @@
             };
 
             const handleSubmit = async () => {
-                // Validation
-                if (ownerSignaturePad.current.isEmpty() || enoSignaturePad.current.isEmpty() || fullyoSignaturePad.current.isEmpty()) {
-                    alert("Please ensure all parties have signed the document.");
+                // Check if at least one person has signed
+                const isOwnerSigned = !ownerSignaturePad.current.isEmpty();
+                const isEnoSigned = !enoSignaturePad.current.isEmpty();
+                const isFullyoSigned = !fullyoSignaturePad.current.isEmpty();
+
+                if (!isOwnerSigned && !isEnoSigned && !isFullyoSigned) {
+                    alert("Please sign at least one section before submitting.");
                     return;
                 }
-                if (!formData.ownerName || !formData.enoName || !formData.fullyoName) {
-                    alert("Please fill in all Name fields.");
+
+                // Validate names only for the sections that are signed
+                if ((isOwnerSigned && !formData.ownerName) || 
+                    (isEnoSigned && !formData.enoName) || 
+                    (isFullyoSigned && !formData.fullyoName)) {
+                    alert("Please enter the Full Name for the signed section(s).");
                     return;
                 }
 
