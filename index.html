@@ -119,11 +119,11 @@
             const enoSignaturePad = useRef(null);
             const fullyoSignaturePad = useRef(null);
 
-            // Form State
+            // Form State - Pre-filled with Legal Names
             const [formData, setFormData] = useState({
-                ownerName: '', ownerTitle: '',
-                enoName: '', enoTitle: '',
-                fullyoName: '', fullyoTitle: ''
+                ownerName: 'Scott Coffrini', ownerTitle: 'Owner',
+                enoName: 'Eno John James', enoTitle: 'Operations Partner',
+                fullyoName: "Sebastien L'Heureux", fullyoTitle: 'Growth Partner'
             });
 
             useEffect(() => {
@@ -1196,19 +1196,26 @@
                                             <Server className="w-5 h-5" />
                                         </div>
                                         <h3 className="text-lg font-bold text-white mb-2">Monthly Tech Stack</h3>
-                                        <div className="text-3xl font-bold text-white mb-4">~$100 <span className="text-sm font-normal text-slate-500">/ mo</span></div>
+                                        <div className="text-3xl font-bold text-white mb-4">~$220 <span className="text-sm font-normal text-slate-500">/ mo</span></div>
                                         <p className="text-slate-400 text-sm mb-4">Essential software costs paid directly to providers.</p>
                                         <ul className="space-y-3 border-t border-slate-800/50 pt-4">
                                             <li className="flex items-start gap-2 text-sm text-slate-300">
                                                 <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5" />
-                                                <span>Guesty PMS (~$60/mo)</span>
+                                                <span>Guesty PMS ($60/property • 3 Units)</span>
+                                            </li>
+                                            <li className="flex items-start gap-2 text-sm text-slate-300">
+                                                <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5" />
+                                                <span>Premium Channels Included (Save $80)</span>
                                             </li>
                                             <li className="flex items-start gap-2 text-sm text-slate-300">
                                                 <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5" />
                                                 <span>Web Hosting (~$40/mo)</span>
                                             </li>
                                             <li className="flex items-start gap-2 text-sm text-slate-500 italic ml-6">
-                                                *Passed through at cost
+                                                *Optional: Dynamic Pricing ($40/listing)
+                                            </li>
+                                            <li className="flex items-start gap-2 text-sm text-slate-500 italic ml-6">
+                                                *Optional: Accounting Module (at cost)
                                             </li>
                                         </ul>
                                     </div>
@@ -1220,7 +1227,7 @@
                                         </div>
                                         <h3 className="text-lg font-bold text-white mb-2 relative z-10">Management Partnership</h3>
                                         <div className="text-3xl font-bold text-white mb-4 relative z-10">15% <span className="text-sm font-normal text-slate-300">Commission</span></div>
-                                        <p className="text-indigo-200 text-sm mb-4 relative z-10">Performance-based fee on gross rental revenue.</p>
+                                        <p className="text-indigo-200 text-sm mb-4 relative z-10">Commission on Net Income (Full Payout).</p>
                                         <ul className="space-y-3 relative z-10 border-t border-white/10 pt-4">
                                             <li className="flex items-start gap-2 text-sm text-slate-200">
                                                 <CheckCircle2 className="w-4 h-4 text-white mt-0.5" />
@@ -1229,6 +1236,10 @@
                                             <li className="flex items-start gap-2 text-sm text-slate-200">
                                                 <CheckCircle2 className="w-4 h-4 text-white mt-0.5" />
                                                 <span>Marketing & Growth Strategy</span>
+                                            </li>
+                                            <li className="flex items-start gap-2 text-sm text-slate-200">
+                                                <CheckCircle2 className="w-4 h-4 text-white mt-0.5" />
+                                                <span>Staff Management</span>
                                             </li>
                                             <li className="flex items-start gap-2 text-sm text-slate-200">
                                                 <CheckCircle2 className="w-4 h-4 text-white mt-0.5" />
@@ -1301,8 +1312,8 @@
                                             </div>
                                             <p className="text-slate-400 text-sm mb-3">Owner executes physical upgrades while Eño/Fullyo maintain marketing rhythm.</p>
                                             <ul className="text-sm text-slate-300 space-y-1">
-                                                <li className="flex items-start gap-2"><span>•</span> Pickleball Court & Extended Patio</li>
-                                                <li className="flex items-start gap-2"><span>•</span> Wellness Area Addition</li>
+                                                <li className="flex items-start gap-2"><span>•</span> Pickleball Court & Extended Patio (Subject to Owner Pricing)</li>
+                                                <li className="flex items-start gap-2"><span>•</span> Wellness Area Addition (Subject to Owner Pricing)</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -1419,6 +1430,7 @@
                                                 <li>Remain on-site and manage physical operations (maintenance, repairs, utilities, safety).</li>
                                                 <li>Cover all operating expenses and construction costs.</li>
                                                 <li>Approve out-of-scope expenses.</li>
+                                                <li><strong>Handle on-site communications requiring physical presence.</strong></li>
                                             </ul>
                                         </div>
                                         <div>
@@ -1446,17 +1458,27 @@
                                 <div>
                                     <h3 className="text-white font-bold text-lg mb-4 flex items-center gap-2">
                                         <span className="bg-slate-800 text-slate-400 w-6 h-6 rounded flex items-center justify-center text-xs">5</span>
-                                        Revenue Model
+                                        Revenue Model & Commission Structure
                                     </h3>
-                                    <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg mb-4">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-white font-bold">Commission</span>
-                                            <span className="text-emerald-400 font-bold text-xl">15% of Net Revenue</span>
+                                    <div className="p-4 bg-slate-950 border border-slate-800 rounded-lg mb-4 space-y-3">
+                                        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                                            <span className="text-slate-400">Net Income</span>
+                                            <span className="text-white text-right text-xs">Total Amount Charged to Guest (Full Payout shown)</span>
                                         </div>
-                                        <p className="text-xs text-slate-500">Covers combined operating functions of Eño + Fullyo. Applies to all new revenue streams generated after operational start.</p>
+                                        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                                            <span className="text-slate-400">Includes</span>
+                                            <span className="text-white text-right text-xs">Accommodation + Cleaning + Upsells + Add-ons</span>
+                                        </div>
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-emerald-400 font-bold">Management Fee</span>
+                                            <span className="text-emerald-400 font-bold text-lg">15% of Net Income</span>
+                                        </div>
                                     </div>
-                                    <p className="mb-2"><strong>Net Revenue Definition:</strong> Includes OTA bookings, Direct bookings, Upsell revenue, and Venue organizer bookings. Calculated after OTA/processing fees, before operational expenses.</p>
-                                    <p className="text-slate-500 text-xs"><em>*Excludes existing reservations confirmed prior to Effective Start Date.</em></p>
+                                    <p className="mb-2"><strong>Net Income Definition:</strong> The total amount charged to the guest at checkout (Accommodation, Cleaning, Upsells, Add-ons). No deductions are applied before commission calculation.</p>
+                                    <p className="text-slate-500 text-xs mb-1"><em>*Excludes existing reservations confirmed prior to Effective Start Date.</em></p>
+                                    <p className="text-slate-400 text-xs mt-2">
+                                        <strong>Owner's Revenue:</strong> Calculated as [Net Income] minus [PM Commission].
+                                    </p>
                                 </div>
 
                                 {/* 6. Marketing Budget */}
@@ -1498,8 +1520,8 @@
                                         Reporting & Payments
                                     </h3>
                                     <ul className="list-disc pl-5 space-y-2 marker:text-slate-600">
-                                        <li><strong>Reporting:</strong> Fullyo delivers monthly reporting showing Net Revenue breakdown, OTA vs Direct share, and Upsell contribution.</li>
-                                        <li><strong>Payments:</strong> Commission is calculated monthly and paid by Owner on the 1st day of each month based on the previous month’s Net Revenue.</li>
+                                        <li><strong>Reporting:</strong> Fullyo delivers monthly reporting showing Net Income breakdown, OTA vs Direct share, and Upsell contribution.</li>
+                                        <li><strong>Payments:</strong> Commission is calculated monthly and paid by Owner on the 1st day of each month based on the previous month’s Net Income.</li>
                                     </ul>
                                 </div>
 
